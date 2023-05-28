@@ -14,7 +14,7 @@ def verifyLink(url):
     except pytube.exceptions.VideoUnavailable:
         return False
 
-def dowloadVideo():
+def dowloadVideo(path_folder):
     var = 1
 
     while var !=0:
@@ -25,7 +25,8 @@ def dowloadVideo():
             video = yt.streams.get_highest_resolution()
             # video.download(output_path='/videos')
             print('Baixando...')
-            path = r'C:\Users\larys\OneDrive\Documentos\Projetos\Videos Youtube\downloaded_videos'
+            # path = r'C:\Users\larys\OneDrive\Documentos\Projetos\Videos Youtube\downloaded_videos'
+            path = path_folder
             video.download(output_path=path)
             break
 
@@ -48,7 +49,11 @@ def main():
             break
         elif var == '1':
             limpar_terminal()
-            dowloadVideo()
+            path = input('Insira o caminho da pasta: ')
+            dowloadVideo(path)
+        elif var == '2':
+            # listar videos que já tinham e novos
+            print('2-listar')
         else:
             print('Opção Inválida!')
 
