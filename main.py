@@ -20,36 +20,16 @@ def dowloadVideo(path_folder):
     while var !=0:
         video_url = input('Insira o Link do vídeo: ')
         
-        # if verifyLink(video_url):
-        #     yt = pytube.YouTube(video_url)
-        #     video = yt.streams.get_highest_resolution()
-        #     # video.download(output_path='/videos')
-        #     print('Baixando...')
-        #     # path = r'C:\Users\larys\OneDrive\Documentos\Projetos\Videos Youtube\downloaded_videos'
-        #     path = path_folder
-        #     video.download(output_path=path)
-        #     break
-        
         if verifyLink(video_url):
-            try:
-                yt = pytube.YouTube(video_url)
-                video = yt.streams.get_highest_resolution()
-                print('Baixando...')
-                path = path_folder
-                video.download(output_path=path)
-                print('Download completo!')
-                break
-
-            except pytube.exceptions.AgeRestrictedError:
-                print('O vídeo possui restrição de idade. Insira suas credenciais do YouTube para fazer o download.')
-                username = input('Nome de usuário: ')
-                password = input('Senha: ')
-
-                # Authenticating with YouTube
-                yt.authenticate(username, password)
-                video.download(output_path=path)
-                print('Download completo!')
-                break
+            yt = pytube.YouTube(video_url)
+            video = yt.streams.get_highest_resolution()
+            # video.download(output_path='/videos')
+            print('Baixando...')
+            # path = r'C:\Users\larys\OneDrive\Documentos\Projetos\Videos Youtube\downloaded_videos'
+            path = path_folder
+            video.download(output_path=path)
+            print('Download realizado!')
+            break
 
         else:
             print('Link inválido!')
