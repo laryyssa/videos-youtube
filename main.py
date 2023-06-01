@@ -26,11 +26,9 @@ def dowloadVideo(path_folder):
             try:
                 yt = YouTube(video_url)
                 video = yt.streams.get_highest_resolution()
-                name_video = input(f'Digite um nome para o vídeo chamado {yt.title}:')
-                download_path = path_folder +'\\'+ name_video + '.mp4'
 
                 print('Baixando...')
-                video.download(download_path)
+                video.download(path_folder)
                 print('Download Completo!') 
                 var = input('Deseja baixar mais video? [1] Sim [0] Não => ')
                 break               
@@ -42,7 +40,7 @@ def dowloadVideo(path_folder):
                 yt = YouTube(age_restricted_url)
                 video = yt.streams.get_highest_resolution()
                 print('Baixando...')
-                video.download(download_path)
+                video.download(path_folder)
                 print('Download Completo!') 
                 break 
 
