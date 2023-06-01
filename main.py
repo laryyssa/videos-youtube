@@ -1,4 +1,6 @@
 import pytube
+from pytube import YouTube
+from pytube.exceptions import AgeRestrictedError
 import os
 
 def limpar_terminal():
@@ -21,15 +23,28 @@ def dowloadVideo(path_folder):
         video_url = input('Insira o Link do vídeo: ')
         
         if verifyLink(video_url):
-            yt = pytube.YouTube(video_url)
-            video = yt.streams.get_highest_resolution()
-            # video.download(output_path='/videos')
-            print('Baixando...')
-            # path = r'C:\Users\larys\OneDrive\Documentos\Projetos\Videos Youtube\downloaded_videos'
-            path = path_folder
-            video.download(output_path=path)
-            print('Download realizado!')
-            break
+            try:
+                yt = YouTube(video_url)
+                video = yt.streams.get_highest_resolution()
+                name_video = input(f'Digite um nome para o vídeo chamado {yt.title}:')
+                download_path = path_folder +'\\'+ name_video + '.mp4'
+
+                print('Baixando...')
+                video.download(download_path)
+                print('Download Completo!') 
+                var = input('Deseja baixar mais video? [1] Sim [0] Não => ')
+                break               
+
+            except AgeRestrictedError as e:
+                # Obtém o URL do vídeo restrito a faixa etária
+                age_restricted_url = e.args[0]
+
+                yt = YouTube(age_restricted_url)
+                video = yt.streams.get_highest_resolution()
+                print('Baixando...')
+                video.download(download_path)
+                print('Download Completo!') 
+                break 
 
         else:
             print('Link inválido!')
@@ -51,7 +66,8 @@ def main():
         elif var == '1':
             limpar_terminal()
             # path = input('Insira o caminho da pasta: ')
-            path = r'C:\Users\larys\OneDrive\Documentos\Projetos\Videos Youtube\downloaded_videos'
+            # path = r'C:\Users\larys\OneDrive\Documentos\Projetos\Videos Youtube\downloaded_videos'
+            path = r'C:\Users\larys\OneDrive\Área de Trabalho\videos'
             dowloadVideo(path)
         elif var == '2':
             # listar videos que já tinham e novos
