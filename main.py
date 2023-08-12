@@ -20,7 +20,8 @@ def dowloadVideo(path_folder):
     var = 1
 
     while var !=0:
-        video_url = input('Insira o Link do vídeo: ')
+        # video_url = input('Insira o Link do vídeo: ')
+        video_url = 'https://www.youtube.com/watch?v=FIb03iLNS74'
         
         if verifyLink(video_url):
             try:
@@ -34,13 +35,11 @@ def dowloadVideo(path_folder):
                 break               
 
             except AgeRestrictedError as e:
-                # Obtém o URL do vídeo restrito a faixa etária
-                age_restricted_url = e.args[0]
-
-                yt = YouTube(age_restricted_url)
+                
+                yt = YouTube(video_url, use_oauth=False,  allow_oauth_cache=True)
                 video = yt.streams.get_highest_resolution()
                 print('Baixando...')
-                video.download(path_folder)
+                video.download(path_folder, filename='TARTARUGAS NINJA 1')
                 print('Download Completo!') 
                 break 
 
@@ -73,4 +72,6 @@ def main():
         else:
             print('Opção Inválida!')
 
-main()
+# main()
+
+dowloadVideo(r'C:\Users\larys\OneDrive\Área de Trabalho\videos')
