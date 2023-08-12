@@ -20,8 +20,7 @@ def dowloadVideo(path_folder):
     var = 1
 
     while var !=0:
-        # video_url = input('Insira o Link do vídeo: ')
-        video_url = 'https://www.youtube.com/watch?v=FIb03iLNS74'
+        video_url = input('Insira o Link do vídeo: ')
         
         if verifyLink(video_url):
             try:
@@ -35,11 +34,10 @@ def dowloadVideo(path_folder):
                 break               
 
             except AgeRestrictedError as e:
-                
                 yt = YouTube(video_url, use_oauth=False,  allow_oauth_cache=True)
                 video = yt.streams.get_highest_resolution()
                 print('Baixando...')
-                video.download(path_folder, filename='TARTARUGAS NINJA 1')
+                video.download(path_folder)
                 print('Download Completo!') 
                 break 
 
