@@ -1,6 +1,7 @@
 import pytube
 from pytube import YouTube
-from pytube.exceptions import AgeRestrictedError
+# from pytube.exceptions import AgeRestrictedError, VideoUnavailable
+import requests
 
 import os
 import traceback
@@ -14,47 +15,45 @@ def clear_terminal():
 def download_video(video_url, path_folder):
     yt = YouTube(video_url)
     video = yt.streams.get_highest_resolution()
-    print('Baixando...')
-    video.download(path_folder)
-    print('Download Completo!') 
 
-def verify_link(url):
+    print(f"Baixando: {yt.title}")
+    video.download(path_folder)
+    print('Download Completo!\n') 
+
+def verify_link(link):
     try:
-        yt = pytube.YouTube(url)
-        return True
-    except pytube.exceptions.VideoUnavailable:
-        print('Link Inválido!')
+        response = requests.head(link)
+        return response.status_code == 200
+    except requests.RequestException:
+        print('Link Inválido!\n')
         return False
 
 def verify_path(path):
     if os.path.exists(path):
         return True
     else:
-        print('Caminho de pasta inválido!')
+        print('Caminho de pasta inválido!\n')
         return False
 
 def download_helper():
-    # path = input('Insira o caminho da pasta: ')
+    # path_folder = input('Insira o caminho da pasta: ')
     path_folder = r'C:\Users\larys\OneDrive\Área de Trabalho\videos'
     video_url = input('Insira o Link do vídeo: ')
     
     if verify_link(video_url) and verify_path(path_folder):
         try:
-            download_video(video_url, path_folder)              
+            # download_video(video_url, path_folder)   
+            print('baixou confia')           
         except Exception:
+            print('Erro ao baixar o vídeo!\n')
             print(traceback.format_exc())
     
-    else:
-        clear_terminal()
-
-    var = input('Baixar mais vídeos? [0] - Não [1] - Sim')
-    return var
+    return True
 
 
 
 
 def menu():
-    print('-------------------')
     print('[0] - Sair\n[1] - Baixar Vídeo\n[2] - Listar Vídeos')
     print('-------------------')
 
@@ -65,6 +64,8 @@ def show_action(user_action):
 
 def main():
     while True:
+        clear_terminal()
+        show_action('VIDEO DOWNLOADER')
         menu()
 
         var = input('Digite sua opção: ')
@@ -73,15 +74,21 @@ def main():
         if var == '0':
             print('Saindo...')
             break
+
         elif var == '1':
             show_action('BAIXAR VIDEO')
-            var = download_helper()
+            download_helper()
+            input('Pressione ENTER para continuar...')
+
         elif var == '2':
             # listar videos que já tinham e novos
             show_action('LISTAR VIDEOS')
-            print('2-listar')
+            print('Listando...')
+            input('Pressione ENTER para continuar...')
+
         else:
-            print('Opção Inválida! Tente Novamente!')
+            print('Opção Inválida! Tente Novamente!\n')
+            input('Pressione ENTER para continuar...')
 
 main()
 
