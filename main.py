@@ -24,7 +24,7 @@ def dowloadVideo(path_folder):
         
         if verifyLink(video_url):
             try:
-                yt = YouTube(video_url)
+                yt = YouTube(video_url, use_oauth=True,  allow_oauth_cache=True)
                 video = yt.streams.get_highest_resolution()
 
                 print('Baixando...')
@@ -34,7 +34,7 @@ def dowloadVideo(path_folder):
                 break               
 
             except AgeRestrictedError as e:
-                yt = YouTube(video_url, use_oauth=False,  allow_oauth_cache=True)
+                yt = YouTube(video_url, use_oauth=True,  allow_oauth_cache=True)
                 video = yt.streams.get_highest_resolution()
                 print('Baixando...')
                 video.download(path_folder)
